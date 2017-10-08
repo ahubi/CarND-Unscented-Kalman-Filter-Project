@@ -103,7 +103,7 @@ void UKF::ProcessMeasurement(const MeasurementPackage& meas_package) {
 
     //Calculate delta time in seconds
     double dt = (meas_package.timestamp_ - time_us_) / 1000000.0;
-    cout << "dt: " << dt << endl;
+    //cout << "dt: " << dt << endl;
     //save time point for next cycle
     time_us_ = meas_package.timestamp_;
 
@@ -131,7 +131,7 @@ void UKF::Prediction(double delta_t) {
   /**
    Predict sigma points, the state, and the state covariance matrix.
   */
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
   MatrixXd Xsig_aug = MatrixXd(n_aug_, n_aug_ * 2 + 1);
   Xsig_aug.fill(0.0);
   GenerateSigmaPoints(Xsig_aug);
@@ -153,7 +153,7 @@ void UKF::Prediction(double delta_t) {
     x_diff(3) = t_.NormalizeAngle(x_diff(3));
     P_ = P_ + weights_(i) * x_diff * x_diff.transpose();
   }
-  cout << "<-" << __func__ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 /**
@@ -161,7 +161,7 @@ void UKF::Prediction(double delta_t) {
  * @param {MeasurementPackage} meas_package
  */
 void UKF::UpdateLidar(const MeasurementPackage& meas_package) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
 
   int n_z = 2;
 
@@ -204,9 +204,9 @@ void UKF::UpdateLidar(const MeasurementPackage& meas_package) {
   P_ = P_ - K * S * K.transpose();
 
   //print result
-  cout << "Updated state x: " << endl << x_ << endl;
-  cout << "Updated state covariance P: " << endl << P_ << endl;
-  cout << "<-" << __func__ << endl;
+  //cout << "Updated state x: " << endl << x_ << endl;
+  //cout << "Updated state covariance P: " << endl << P_ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 /**
@@ -214,7 +214,7 @@ void UKF::UpdateLidar(const MeasurementPackage& meas_package) {
  * @param {MeasurementPackage} meas_package
  */
 void UKF::UpdateRadar(const MeasurementPackage& meas_package) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
 
   //set measurement dimension, radar can measure r, phi, and r_dot
   int n_z = 3;
@@ -262,13 +262,13 @@ void UKF::UpdateRadar(const MeasurementPackage& meas_package) {
   P_ = P_ - K*S*K.transpose();
 
   //print result
-  cout << "Updated state x: " << endl << x_ << endl;
-  cout << "Updated state covariance P: " << endl << P_ << endl;
-  cout << "<-" << __func__ << endl;
+  //cout << "Updated state x: " << endl << x_ << endl;
+  //cout << "Updated state covariance P: " << endl << P_ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 void UKF::GenerateSigmaPoints(MatrixXd& Xsig_aug) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
   //create augmented mean vector
   VectorXd x_aug = VectorXd(n_aug_);
   x_aug.fill(0.0);
@@ -297,12 +297,12 @@ void UKF::GenerateSigmaPoints(MatrixXd& Xsig_aug) {
     Xsig_aug.col(i+1+n_aug_) = x_aug - sqrt(lambda_ + n_aug_) * A.col(i);
   }
   //print result
-  cout << "Xsig_aug = " << endl << Xsig_aug << endl;
-  cout << "<-" << __func__ << endl;
+  //cout << "Xsig_aug = " << endl << Xsig_aug << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 void UKF::PredictSigmaPoints(const MatrixXd& Xsig_aug, const double& dt) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
   //predict sigma points
   for (int i = 0; i< 2 * n_aug_ + 1; i++)
   {
@@ -347,12 +347,12 @@ void UKF::PredictSigmaPoints(const MatrixXd& Xsig_aug, const double& dt) {
     Xsig_pred_(3,i) = yaw_p;
     Xsig_pred_(4,i) = yawd_p;
   }
-  cout << "Xsig_pred_ = " << endl << Xsig_pred_ << endl;
-  cout << "<-" << __func__ << endl;
+  //cout << "Xsig_pred_ = " << endl << Xsig_pred_ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 void UKF::PredictRadarMeasurement(VectorXd& z_pred, MatrixXd& S, MatrixXd& Zsig) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
   //set measurement dimension, radar can measure r, phi, and r_dot
   int n_z = 3;
 
@@ -399,14 +399,14 @@ void UKF::PredictRadarMeasurement(VectorXd& z_pred, MatrixXd& S, MatrixXd& Zsig)
   S = S + R;
 
   //print result
-  cout << "z_pred: " << endl << z_pred << endl;
-  cout << "S: " << endl << S << endl;
+  //cout << "z_pred: " << endl << z_pred << endl;
+  //cout << "S: " << endl << S << endl;
 
-  cout << "<-" << __func__ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 
 void UKF::PredictLidarMeasurement(VectorXd& z_pred, MatrixXd& S, MatrixXd& Zsig) {
-  cout << "->" << __func__ << endl;
+  //cout << "->" << __func__ << endl;
   //set measurement dimension, radar can measure r, phi, and r_dot
   int n_z = 2;
 
@@ -441,9 +441,9 @@ void UKF::PredictLidarMeasurement(VectorXd& z_pred, MatrixXd& S, MatrixXd& Zsig)
   S = S + R;
 
   //print result
-  cout << "z_pred: " << endl << z_pred << endl;
-  cout << "S: " << endl << S << endl;
+  //cout << "z_pred: " << endl << z_pred << endl;
+  //cout << "S: " << endl << S << endl;
 
-  cout << "<-" << __func__ << endl;
+  //cout << "<-" << __func__ << endl;
 }
 

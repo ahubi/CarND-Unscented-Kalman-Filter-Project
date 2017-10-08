@@ -104,9 +104,30 @@ public:
    */
   void UpdateRadar(const MeasurementPackage& meas_package);
 private:
-  void GenerateSigmaPoints(MatrixXd& Xsig_aug_out);
-  void PredictSigmaPoints(const MatrixXd& Xsig_aug_in, const double& dt);
+  /**
+   * Generates augmented sigma points for predict step
+   * @param Xsig_aug in as empty, out a filled matrix with augmented sigma points
+   */
+  void GenerateSigmaPoints(MatrixXd& Xsig_aug);
+  /**
+   * Predicts sigma points for Predict step
+   * @param Xsig_aug augmented sigma points
+   * @param dt delta time
+   */
+  void PredictSigmaPoints(const MatrixXd& Xsig_aug, const double& dt);
+  /**
+   * Predicts radar measurements for radar update step
+   * @param z_out predicted mean
+   * @param S_out measurement covariance matrix
+   * @param Zsig predicted sigma points in measurement space
+   */
   void PredictRadarMeasurement(VectorXd& z_out, MatrixXd& S_out, MatrixXd& Zsig);
+  /**
+   * Predicts lidar measurements for lidar update step
+   * @param z_out predicted mean
+   * @param S_out measurement covariance matrix
+   * @param Zsig predicted sigma points in measurement space
+   */
   void PredictLidarMeasurement(VectorXd& z_out, MatrixXd& S_out, MatrixXd& Zsig);
 };
 
