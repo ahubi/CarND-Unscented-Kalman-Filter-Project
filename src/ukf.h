@@ -3,6 +3,7 @@
 
 #include "measurement_package.h"
 #include "Eigen/Dense"
+#include "tools.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -67,7 +68,7 @@ public:
   ///* Sigma point spreading parameter
   double lambda_;
 
-
+  Tools t_;
   /**
    * Constructor
    */
@@ -105,6 +106,7 @@ public:
 private:
   void GenerateSigmaPoints(MatrixXd& Xsig_out);
   void PredictSigmaPoints(const MatrixXd& Xsig_aug, const double& dt);
+  void PredictRadarMeasurement(VectorXd& z_out, MatrixXd& S_out, MatrixXd& Zsig);
 };
 
 #endif /* UKF_H */

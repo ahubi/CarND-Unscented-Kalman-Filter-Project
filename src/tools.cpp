@@ -43,9 +43,9 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   return rmse;
 }
 
-void Tools::NormalizeAngle(double& angle){
-  static const double pi = atan(1) * 4;
+double Tools::NormalizeAngle(const double& angle){
   //angle normalization
-  while (angle > pi) angle -= 2. * pi;
-  while (angle < -pi) angle += 2.* pi;
+  //while (angle > M_PI)  angle -= 2. * M_PI;
+  //while (angle < -M_PI) angle += 2.* M_PI;
+  return atan2(sin(angle), cos(angle));
 }
