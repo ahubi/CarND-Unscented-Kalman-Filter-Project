@@ -104,9 +104,10 @@ public:
    */
   void UpdateRadar(const MeasurementPackage& meas_package);
 private:
-  void GenerateSigmaPoints(MatrixXd& Xsig_out);
-  void PredictSigmaPoints(const MatrixXd& Xsig_aug, const double& dt);
+  void GenerateSigmaPoints(MatrixXd& Xsig_aug_out);
+  void PredictSigmaPoints(const MatrixXd& Xsig_aug_in, const double& dt);
   void PredictRadarMeasurement(VectorXd& z_out, MatrixXd& S_out, MatrixXd& Zsig);
+  void PredictLidarMeasurement(VectorXd& z_out, MatrixXd& S_out, MatrixXd& Zsig);
 };
 
 #endif /* UKF_H */
