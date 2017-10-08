@@ -66,13 +66,32 @@ UKF::~UKF() {}
  * @param {MeasurementPackage} meas_package The latest measurement data of
  * either radar or laser.
  */
-void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
+void UKF::ProcessMeasurement(const MeasurementPackage& meas_package) {
   /**
   TODO:
 
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
+  if(is_initialized_==false){
+    time_us_ = meas_package.timestamp_;
+    is_initialized_=true;
+  }else{
+
+    //Calculate delta time in seconds
+    double dt = meas_package.timestamp_ - time_us_ / 1000000.0;
+
+    //save time point for next cycle
+    time_us_ = meas_package.timestamp_;
+    //Predict
+    Prediction(dt);
+    //Update
+    if(meas_package.sensor_type_ == meas_package.LASER){
+      UpdateLidar(meas_package);
+    }else{
+      UpdateRadar(meas_package);
+    }
+  }
 }
 
 /**
@@ -93,7 +112,7 @@ void UKF::Prediction(double delta_t) {
  * Updates the state and the state covariance matrix using a laser measurement.
  * @param {MeasurementPackage} meas_package
  */
-void UKF::UpdateLidar(MeasurementPackage meas_package) {
+void UKF::UpdateLidar(const MeasurementPackage& meas_package) {
   /**
   TODO:
 
@@ -108,7 +127,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
  * Updates the state and the state covariance matrix using a radar measurement.
  * @param {MeasurementPackage} meas_package
  */
-void UKF::UpdateRadar(MeasurementPackage meas_package) {
+void UKF::UpdateRadar(const MeasurementPackage& meas_package) {
   /**
   TODO:
 
